@@ -529,10 +529,16 @@ const DEFAULTS = { principal: 10000, monthly: 500, rate: 7, years: 20 };
 
 function openCompare() {
   document.getElementById('compareModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.body.style.position = 'fixed';
+  document.body.style.width = '100%';
 }
 function closeCompare(e) {
   if (!e || e.target === document.getElementById('compareModal')) {
     document.getElementById('compareModal').classList.remove('open');
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
   }
 }
 
@@ -752,7 +758,13 @@ function calculate() {
 }
 window.addEventListener('load', () => { setTimeout(() => { resetForm(); loadFromUrl(); }, 100); });
 
+// Send height to parent so iframe auto-resizes
+function sendHeight() {
+  window.parent.postMessage({ iframeHeight: document.body.scrollHeight }, '*');
+}
+setInterval(sendHeight, 500);
+
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 </body>
-</html> 
+</html>
